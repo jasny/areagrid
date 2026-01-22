@@ -10,29 +10,7 @@ yarn add areagrid
 
 ## Usage
 
-### 1. Configure Breakpoints
-
-`AreaGrid` uses CSS variables for breakpoints. By default, it looks for variables like `--breakpoint-md`. 
-
-You can either import the provided Tailwind-compatible CSS file:
-
-```tsx
-import "areagrid/breakpoints.css";
-```
-
-Or define them manually in your global CSS:
-
-```css
-:root {
-  --breakpoint-sm: 640px;
-  --breakpoint-md: 768px;
-  --breakpoint-lg: 1024px;
-  --breakpoint-xl: 1280px;
-  --breakpoint-2xl: 1536px;
-}
-```
-
-### 2. Component Usage
+### 1. Component Usage
 
 ```tsx
 import { AreaGrid, AreaSlot } from "areagrid";
@@ -74,6 +52,37 @@ export function Dashboard() {
     </AreaGrid>
   );
 }
+```
+
+### 2. Breakpoints
+
+`AreaGrid` uses Tailwind-compatible `rem` values for breakpoints by default.
+
+| Breakpoint | Minimum width |
+| ---------- | ------------- |
+| `sm`       | 40rem (640px) |
+| `md`       | 48rem (768px) |
+| `lg`       | 64rem (1024px) |
+| `xl`       | 80rem (1280px) |
+| `2xl`      | 96rem (1536px) |
+
+
+You can override the default breakpoints using the `breakpoints` prop:
+
+```tsx
+<AreaGrid
+  breakpoints={{
+    md: "500px",
+    lg: "800px"
+  }}
+  areas={{
+    base: `"a"`,
+    md: `"a a"`,
+    lg: `"a a a"`
+  }}
+>
+  <AreaSlot name="a">Content</AreaSlot>
+</AreaGrid>
 ```
 
 ## Tests

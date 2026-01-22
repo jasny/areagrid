@@ -20,23 +20,15 @@ export type AreaGridProps = PropsWithChildren<{
   alignItems?: React.CSSProperties["alignItems"];
   justifyItems?: React.CSSProperties["justifyItems"];
   className?: string;
+  breakpoints?: Partial<Record<Exclude<BreakpointKey, "base">, string>>;
 }>;
 
-/**
- * Breakpoints are defined via CSS variables.
- * You can import 'areagrid/breakpoints.css' or define them yourself:
- * --breakpoint-sm: 640px
- * --breakpoint-md: 768px
- * --breakpoint-lg: 1024px
- * --breakpoint-xl: 1280px
- * --breakpoint-2xl: 1536px
- */
-const BREAKPOINTS: Record<Exclude<BreakpointKey, "base">, string> = {
-  sm: "var(--breakpoint-sm)",
-  md: "var(--breakpoint-md)",
-  lg: "var(--breakpoint-lg)",
-  xl: "var(--breakpoint-xl)",
-  "2xl": "var(--breakpoint-2xl)",
+const DEFAULT_BREAKPOINTS: Record<Exclude<BreakpointKey, "base">, string> = {
+  sm: "40rem",
+  md: "48rem",
+  lg: "64rem",
+  xl: "80rem",
+  "2xl": "96rem",
 };
 
 function cssEscapeAttr(value: string): string {
@@ -61,6 +53,7 @@ export function AreaGrid({
   alignItems,
   justifyItems,
   className,
+  breakpoints,
   children,
 }: AreaGridProps) {
   const reactId = useId();
@@ -68,6 +61,8 @@ export function AreaGrid({
   const sel = `[data-area-grid="${cssEscapeAttr(scope)}"]`;
 
   const css = useMemo(() => {
+    const bp = { ...DEFAULT_BREAKPOINTS, ...breakpoints };
+
     const base = ruleBlock(sel, {
       "grid-template-areas": areas.base,
       "grid-template-columns": columns?.base,
@@ -79,7 +74,7 @@ export function AreaGrid({
 
     const sm =
       areas.sm || columns?.sm || rows?.sm
-        ? `@media (min-width: ${BREAKPOINTS.sm}) {\n${ruleBlock(sel, {
+        ? `@media (min-width: ${bp.sm}) {\n${ruleBlock(sel, {
             "grid-template-areas": areas.sm,
             "grid-template-columns": columns?.sm,
             "grid-template-rows": rows?.sm,
@@ -88,7 +83,7 @@ export function AreaGrid({
 
     const md =
       areas.md || columns?.md || rows?.md
-        ? `@media (min-width: ${BREAKPOINTS.md}) {\n${ruleBlock(sel, {
+        ? `@media (min-width: ${bp.md}) {\n${ruleBlock(sel, {
             "grid-template-areas": areas.md,
             "grid-template-columns": columns?.md,
             "grid-template-rows": rows?.md,
@@ -97,7 +92,7 @@ export function AreaGrid({
 
     const lg =
       areas.lg || columns?.lg || rows?.lg
-        ? `@media (min-width: ${BREAKPOINTS.lg}) {\n${ruleBlock(sel, {
+        ? `@media (min-width: ${bp.lg}) {\n${ruleBlock(sel, {
             "grid-template-areas": areas.lg,
             "grid-template-columns": columns?.lg,
             "grid-template-rows": rows?.lg,
@@ -106,7 +101,7 @@ export function AreaGrid({
 
     const xl =
       areas.xl || columns?.xl || rows?.xl
-        ? `@media (min-width: ${BREAKPOINTS.xl}) {\n${ruleBlock(sel, {
+        ? `@media (min-width: ${bp.xl}) {\n${ruleBlock(sel, {
             "grid-template-areas": areas.xl,
             "grid-template-columns": columns?.xl,
             "grid-template-rows": rows?.xl,
@@ -115,7 +110,7 @@ export function AreaGrid({
 
     const xxl =
       areas["2xl"] || columns?.["2xl"] || rows?.["2xl"]
-        ? `@media (min-width: ${BREAKPOINTS["2xl"]}) {\n${ruleBlock(sel, {
+        ? `@media (min-width: ${bp["2xl"]}) {\n${ruleBlock(sel, {
             "grid-template-areas": areas["2xl"],
             "grid-template-columns": columns?.["2xl"],
             "grid-template-rows": rows?.["2xl"],
@@ -123,7 +118,7 @@ export function AreaGrid({
         : "";
 
     return `${base}${sm}${md}${lg}${xl}${xxl}`;
-  }, [sel, areas, columns, rows, gap, alignItems, justifyItems]);
+  }, [sel, areas, columns, rows, gap, alignItems, justifyItems, breakpoints]);
 
   return (
     <>

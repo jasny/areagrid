@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import React from "react";
 import { render } from "@testing-library/react";
-import { AreaGrid, AreaSlot } from "../src/AreaGrid";
+import { AreaGrid, AreaSlot } from "../src";
 
 describe("AreaGrid", () => {
   it("renders a scoped grid wrapper and style tag", () => {
@@ -27,7 +27,7 @@ describe("AreaGrid", () => {
     expect(gridEl).toBeTruthy();
   });
 
-  it("includes breakpoint CSS vars in media queries when provided", () => {
+  it("includes default REM breakpoints in media queries when provided", () => {
     const { container } = render(
       <AreaGrid
         areas={{
@@ -46,10 +46,29 @@ describe("AreaGrid", () => {
     );
 
     const css = container.querySelector("style")?.textContent ?? "";
-    expect(css).toContain("@media (min-width: var(--breakpoint-lg))");
-    expect(css).toContain("@media (min-width: var(--breakpoint-2xl))");
+    expect(css).toContain("@media (min-width: 64rem)");
+    expect(css).toContain("@media (min-width: 96rem)");
     expect(css).toContain("grid-template-areas");
     expect(css).toContain("grid-template-columns");
+  });
+
+  it("allows setting custom breakpoints via property", () => {
+    const { container } = render(
+      <AreaGrid
+        areas={{
+          base: `"a"`,
+          md: `"a a"`,
+        }}
+        breakpoints={{
+          md: "500px",
+        }}
+      >
+        <AreaSlot name="a">A</AreaSlot>
+      </AreaGrid>
+    );
+
+    const css = container.querySelector("style")?.textContent ?? "";
+    expect(css).toContain("@media (min-width: 500px)");
   });
 
   it("does not add unused breakpoint blocks", () => {
@@ -64,10 +83,10 @@ describe("AreaGrid", () => {
     );
 
     const css = container.querySelector("style")?.textContent ?? "";
-    expect(css).not.toContain("var(--breakpoint-sm)");
-    expect(css).not.toContain("var(--breakpoint-md)");
-    expect(css).not.toContain("var(--breakpoint-lg)");
-    expect(css).not.toContain("var(--breakpoint-xl)");
-    expect(css).not.toContain("var(--breakpoint-2xl)");
+    expect(css).not.toContain("40rem");
+    expect(css).not.toContain("48rem");
+    expect(css).not.toContain("64rem");
+    expect(css).not.toContain("80rem");
+    expect(css).not.toContain("96rem");
   });
 });
