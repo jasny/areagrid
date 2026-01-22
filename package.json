@@ -1,6 +1,6 @@
 {
   "name": "areagrid",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A tiny, dependency-free CSS Grid grid-template-areas wrapper for React.",
   "author": "Arnold Daniels <arnold@jasny.net>",
   "license": "MIT",
