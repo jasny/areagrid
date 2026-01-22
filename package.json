@@ -2,11 +2,11 @@
   "name": "areagrid",
   "version": "1.0.0",
   "description": "A tiny, dependency-free CSS Grid grid-template-areas wrapper for React.",
-  "author": "Arnold",
+  "author": "Arnold Daniels <arnold@jasny.net>",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/arnold/areagrid.git"
+    "url": "https://github.com/jasny/areagrid.git"
   },
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
