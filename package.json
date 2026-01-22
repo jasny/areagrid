@@ -16,15 +16,14 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
-    },
-    "./breakpoints.css": "./dist/breakpoints.css"
+    }
   },
   "files": [
     "dist"
   ],
   "type": "module",
   "scripts": {
-    "build": "tsup src/index.ts --format cjs,esm --dts --clean && cp src/breakpoints.css dist/",
+    "build": "tsup src/index.ts --format cjs,esm --dts --clean",
     "test": "vitest",
     "lint": "tsc --noEmit",
     "prepare": "npm run build"
