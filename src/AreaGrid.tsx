@@ -1,16 +1,11 @@
 import React, { PropsWithChildren, useId, useMemo } from "react";
+import { BreakpointKey, Responsive } from "./types"
 
 const rootStyle: React.CSSProperties = {
   display: 'grid',
   width: '100%',
   minWidth: 0,
 };
-
-const slotStyle: React.CSSProperties = { minWidth: 0 };
-
-type BreakpointKey = "base" | "sm" | "md" | "lg" | "xl" | "2xl";
-
-type Responsive<T> = Partial<Record<BreakpointKey, T>>;
 
 export type AreaGridProps = PropsWithChildren<{
   areas: Responsive<string>;
@@ -130,10 +125,3 @@ export function AreaGrid({
   );
 }
 
-export function AreaSlot({ name, children }: PropsWithChildren<{ name: string }>) {
-  return (
-    <div style={{ ...slotStyle, gridArea: name }}>
-      {children}
-    </div>
-  );
-}
