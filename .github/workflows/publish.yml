@@ -16,7 +16,8 @@ jobs:
         with:
           node-version: 24
           cache: 'yarn'
-      - run: yarn install --frozen-lockfile
+      - run: corepack enable
+      - run: yarn install --immutable
       - run: yarn test --run
 
   publish:
@@ -33,7 +34,8 @@ jobs:
           node-version: 24
           cache: 'yarn'
           registry-url: 'https://registry.npmjs.org'
-      - run: yarn install --frozen-lockfile
+      - run: corepack enable
+      - run: yarn install --immutable
       - run: yarn build
       - name: Publish to npm
         run: npm publish --provenance --access public
